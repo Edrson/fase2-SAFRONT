@@ -1,0 +1,81 @@
+<div class="row justify-content-center pt-5 mt-5 h-100 ">
+
+    <div class="col-12 col-sm-12 col-xs-12 col-md-8">
+  
+      <div class="row justify-content-center ">
+        <div class="panel-heading col-8 m-3">
+          <h1 class="panel-title text-center">SUBASTAS</h1>
+        </div>
+      </div>
+      <div class="row justify-content-center align-content-center">
+       
+      </div>
+  
+     
+  
+      <!-- ------------------SUBASTAS -->
+  
+      <div class="mt-5" *ngIf="true">
+        <div class="row">
+          <div class="col-12 col-md-12">
+            <h4>Productos </h4>
+          </div>
+         
+          <div class="table-responsive">
+  
+            <table class="table table-hover table-striped col-12">
+              <thead>
+                <tr>
+                  <!-- <th scope="col">Categoría</th> -->
+                  <th scope="col">Artículo</th>
+                  <th scope="col">Imagen</th>
+                  <th scope="col">Descripción</th>
+                  <th scope="col">Precio Actual</th>
+                  <th scope="col">Finaliza</th>
+                  <!-- <th scope="col">Puja</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                 <tr *ngFor="let subasta of ListaSubastas" (click)="onSelect(subasta)">
+                  <td>{{subasta.producto.nombre}}</td>
+                  <td> <img src="{{subasta.producto.foto}}" class="img-thumbnail" width="50" height="50"></td>
+                  <td>{{subasta.producto.descripcion}}</td>
+                  <td>{{subasta.valor_inicial}}</td>
+                  <td> {{subasta.fecha_hora_fin}}</td>
+                  <!-- <td>
+                    <div class="row m-2">
+                     
+                       
+                        <label class="btn btn-primary " (click)="onSelect(subasta)" data-toggle="modal"
+                        data-target="#editproduct">
+                        <span class="material-icons">
+                         campaign
+                        </span>
+                       
+                      </label>
+                     
+
+                       
+                    
+  
+                    </div>
+  
+                  </td> -->
+                </tr> 
+  
+              </tbody>
+  
+            </table>
+          </div>
+  
+        </div>
+  
+  
+      </div>
+  
+  
+  
+  
+    
+    </div>
+</div>  

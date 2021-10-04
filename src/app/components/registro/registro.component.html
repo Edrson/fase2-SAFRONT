@@ -1,0 +1,106 @@
+<div class="row justify-content-center pt-5 mt-5 h-100 ">
+
+  <div class="col-6">
+ 
+      <div class="panel-heading">
+        <h1 class="panel-title">Regístrate</h1>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="Register()">
+
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group"> Nombre
+              <input type="text" name="nombre" id="nombre" class="form-control" formControlName="name" required
+                placeholder="ej. Juan Alberto">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+              <div class="form-group">Apellido
+                <input type="text" name="apellido" id="apellido" class="form-control" formControlName="lastname" required
+                  placeholder="ej. Perez Perez">
+              </div>
+            </div>
+          </div>
+
+
+        <div class="row">
+          <div class="form-group">Correo Electrónico
+            <input type="correo" name="correo" id="correo" class="form-control input-sm" formControlName="email"
+              placeholder="ej. ejemplo@correo.com">
+          </div>
+
+        </div>
+
+        <div class="row">
+            <div class="form-group"> Tipo de Usuario
+                <select class="custom-select"  formControlName="type" >
+                    <option value="C">Cliente</option>
+                    <option value="P">Proveedor</option>
+                  </select>
+            </div>
+  
+          </div>
+
+          <div class="row">
+           
+              
+              <div class="form-group">  INFORMACIÓN DE PAGO
+                <input type="text" name="titular" id="titular" class="form-control" formControlName="titular" required placeholder="Titular de la Tarjeta">
+              </div>
+
+              <div class=" col-6 form-group"> 
+                <div>
+                  Número:
+                  <input type="text" name="numero" id="numero" class="form-control" formControlName="numero" required placeholder="No. 000000000" numbersOnly>
+                </div>
+             
+              </div>
+              
+              <div class="col-6 ">
+                <div class="form-group">
+                  Fecha de Expiración:
+                  <input type="date" class="form-control" id="vencimiento" formControlName="vencimiento" >
+                </div>
+              </div>
+            
+          </div>
+
+
+        <div class="row">
+            <div class="row">
+                <div class="form-group">Contraseña </div>
+            </div>
+
+
+          <div class="col-xs-6 col-sm-6 col-md-6">
+            <div class="form-group">
+              <input type="password" name="password" id="password" class="form-control input-sm"
+                formControlName="password" placeholder="Contraseña">
+            </div>
+
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-6">
+            <div class="form-group">
+              <input type="password" name="password_confirmation" id="password_confirmation"
+                class="form-control input-sm" formControlName="password_confirmation"
+                placeholder="Confirmar Contraseña">
+            </div>
+          </div>
+
+        </div>
+
+        <input (ngSubmit)="Register()" type="submit" value="Registarme" class="btn btn-primary btn-block"   >
+
+      </form>
+   
+  </div>
+
+
+
+
+
+</div>

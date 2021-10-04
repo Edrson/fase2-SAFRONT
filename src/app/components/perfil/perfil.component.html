@@ -1,0 +1,413 @@
+<div class="row justify-content-center pt-5 mt-5 h-100 ">
+
+  <div class="col-12 col-sm-12 col-xs-12 col-md-8">
+
+    <div class="row justify-content-center ">
+      <div class="panel-heading col-8 m-3">
+        <h1 class="panel-title text-center">PERFIL DE {{Tipo}} </h1>
+      </div>
+    </div>
+    <div class="row justify-content-center align-content-center">
+      <div class="col-sm-12 col-md-4 col-8">
+        <div class="row row-md-4 justify-content-center">
+          <img src="{{Foto}}" class="img-thumbnail" width="50" height="50">
+        </div>
+      </div>
+
+      <div class="col m-1">
+        <div class="card mb-1 p-3"> <b>Nombre:</b> {{Nombre}}</div>
+        <div class="card mb-1 p-3"><b>Apellido:</b>{{Apellido}}</div>
+        <div class="card mb-1 p-3"><b>Correo</b> {{Correo}}</div>
+      </div>
+    </div>
+
+    <!-- ------------------TARJETAS DEL CLIENTE-->
+    <div class="row mt-2">
+      <h5>Tarjetas Asociadas </h5>
+      <div class="card mb-1 p-3 " *ngFor=" let tarjeta of Tarjetas ">
+        <div class="row mx-auto">Titular: {{tarjeta.titular}}</div>
+        <div class="row mx-auto">Número: {{tarjeta.numero}}</div>
+        <div class="row mx-auto">Expira: {{tarjeta.vencimiento}}</div>
+      </div>
+    </div>
+
+    <!-- ------------------TABS-->
+
+    <ul class="nav nav-tabs mt-2">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#productos">Productos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#subastas">Subastas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#compras">Compras</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#ventas">Ventas</a>
+      </li>
+    
+    </ul>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade show active" id="productos">
+            <div class="row">
+              <div class="col-6 col-md-6">
+                <h4>Productos </h4>
+              </div>
+              <div class="col-6 col-md-6">
+                <button type="button" class=" btn btn-success float-right btn-lg m-1  " data-toggle="modal" data-target="#addproduct">
+                  <div class="row align-content-center justify-content-center">
+                    <span class="col-6"> Agregar </span>
+                    <span class="material-icons col-6">add_box</span>
+                  </div>
+                </button>
+              </div>
+              <div class="table-responsive">
+
+                <table class="table table-hover table-striped col-12">
+                  <thead>
+                    <tr>
+                      <!-- <th scope="col">Categoría</th> -->
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Categoria</th>
+                      <th scope="col">Precio</th>
+                      <th scope="col">Descripción</th>
+                      <th scope="col">Stock</th>
+                      <th scope="col">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let producto of productosProveedor" (click)="onSelect(producto)">
+                      <td>{{producto.nombre}}</td>
+                      <td>{{producto.categoria}}</td>
+                      <td>{{producto.precio}}</td>
+                      <td>{{producto.descripcion}}</td>
+                      <td>{{producto.stock}}</td>
+                      <td>
+                        <div class="row m-2">
+                          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-primary " (click)="onSelect(producto)" data-toggle="modal"
+                              data-target="#editproduct">
+                              <span class="material-icons">
+                                edit
+                              </span>
+                            </label>
+                            <label class="btn btn-dark " (click)="onSelect(producto)" data-toggle="modal"
+                              data-target="#auctionproduct">
+                              <span class="material-icons">
+                                gavel
+                              </span>
+                            </label>
+                            <label class="btn btn-secondary" (click)="onSelect(producto)" data-toggle="modal"
+                              data-target="#deleteproduct">
+                              <span class="material-icons">
+                                delete
+                              </span>
+                            </label>
+                          </div>
+
+                        </div>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+      </div>
+      <div class="tab-pane fade" id="subastas">
+          
+        <div class="mt-5" *ngIf="true">
+          <div class="row">
+            <div class="col-12 col-md-12">
+              <h4>Subastas </h4>
+            </div>
+          
+            <div class="table-responsive">
+    
+              <table class="table table-hover table-striped col-12">
+                <thead>
+                  <tr>
+                    <!-- <th scope="col">Categoría</th> -->
+                    <th scope="col">Artículo</th>
+                    <th scope="col">Imagen</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio Inicial</th>
+                    <th scope="col">Finaliza</th>
+                    <!-- <th scope="col">Puja</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let subasta of ListaSubastas">
+                    <td>{{subasta.producto.nombre}}</td>
+                    <td> <img src="{{subasta.producto.foto}}" class="img-thumbnail" width="50" height="50"></td>
+                    <td>{{subasta.producto.descripcion}}</td>
+                    <td>{{subasta.valor_inicial}}</td>
+                    <td> 
+                      <div *ngIf="subastaVigente(subasta.fecha_hora_fin); else cerrada">
+                        Abierta hasta {{subasta.fecha_hora_fin}} 
+                      </div>
+                      <ng-template #cerrada>
+                       Cerrada el  {{subasta.fecha_hora_fin}} 
+                      </ng-template>
+                     
+
+                    </td>
+                    <!-- <td>
+                      <div class="row m-2">
+                      
+                        
+                          <label class="btn btn-primary " (click)="onSelect(subasta)" data-toggle="modal"
+                          data-target="#editproduct">
+                          <span class="material-icons">
+                          campaign
+                          </span>
+                        
+                        </label>
+                      
+
+                        
+                      
+    
+                      </div>
+    
+                    </td> -->
+                  </tr> 
+    
+                </tbody>
+    
+              </table>
+            </div>
+    
+          </div>
+    
+    
+        </div>
+      </div>
+      <div class="tab-pane fade" id="compras">
+        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</p>
+      </div>
+      <div class="tab-pane fade" id="ventas">
+        <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater.</p>
+      </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- MODAL AGREGAR PRODUCTO  -->
+    <div class="modal fade" id="addproduct" data-backdrop="static" data-keyboard="false" tabindex="-1"
+      aria-labelledby="editcarpetLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="addproduct">
+              <ng-container>
+                Agregar Producto
+              </ng-container>
+
+            </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form>
+
+              <div class="form-group">
+                <div class="form-group">
+                  Nombre
+                  <input type="text" name="nombre" class="form-control" [(ngModel)]="new_product.nombre" required>
+                </div>
+                <div class="form-group">
+                  Categoria
+                  <input type="text" name="categoria" class="form-control" [(ngModel)]="new_product.categoria" required>
+                </div>
+                <div class="form-group">
+                  Precio (Q.)
+                  <input type="text" name="precio" class="form-control" [(ngModel)]="new_product.precio" required>
+                </div>
+                <div class="form-group">
+                  Descripcion
+                  <input type="text" name="descripcion" class="form-control" [(ngModel)]="new_product.descripcion"
+                    required>
+                </div>
+                <div class="form-group">
+                   URL fotografía
+                    <input type="text" name="foto" class="form-control" [(ngModel)]="new_product.foto"
+                      required>
+                  </div>
+                <div class="form-group">
+                  Stock (Unidades)
+                  <input type="text" name="stock" class="form-control" [(ngModel)]="new_product.stock" required>
+                </div>
+              </div>
+
+            </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" (click)="addProduct()" class="btn btn-primary" data-dismiss="modal">Agregar</button>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- MODAL EDITAR PRODUCTO  -->
+  <div class="modal fade" id="editproduct" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="editcarpetLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header  bg-primary">
+          <h4 class="modal-title" id="editproduct">
+            <ng-container>
+              Editar Producto
+            </ng-container>
+
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+
+            <div class="form-group">
+              <div class="form-group">
+                Nombre
+                <input type="text" name="nombre" class="form-control" disabled="true"
+                  [(ngModel)]="selected_product.nombre" required>
+              </div>
+              <div class="form-group">
+                Categoria
+                <input type="text" name="categoria" class="form-control" disabled="true"
+                  [(ngModel)]="selected_product.categoria" required>
+              </div>
+              <div class="form-group">
+                Precio (Q.)
+                <input type="text" name="precio" class="form-control" [(ngModel)]="selected_product.precio" required>
+              </div>
+              <div class="form-group">
+                Descripcion
+                <input type="text" name="descripcion" class="form-control" [(ngModel)]="selected_product.descripcion"
+                  required>
+              </div>
+              <div class="form-group">
+                Stock (Unidades)
+                <input type="text" name="stock" class="form-control" [(ngModel)]="selected_product.stock" required>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" (click)="editProduct()" class="btn btn-primary" data-dismiss="modal">Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ELIMINAR PRODUCTO  -->
+  <div class="modal fade " id="deleteproduct" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="editcarpetLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header  bg-danger">
+          <h4 class="modal-title" id="editproduct">
+            <ng-container>
+              Eliminar Producto
+            </ng-container>
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Está seguro de eliminar el producto?
+          <div class="form-group">
+            Nombre
+            <input type="text" name="nombre" class="form-control" [(ngModel)]="selected_product.nombre" required>
+          </div>
+          <div class="form-group">
+            Categoria
+            <input type="text" name="categoria" class="form-control" [(ngModel)]="selected_product.categoria" required>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+          <button type="button" (click)="deleteProduct()" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL SUBASTAR PRODUCTO  -->
+  <div class="modal fade" id="auctionproduct" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="editcarpetLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header  bg-secondary">
+          <h4 class="modal-title" id="editproduct">
+            <ng-container>
+              Subastar Producto
+            </ng-container>
+
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+
+            <div class="form-group">
+              <div class="form-group">
+                Nombre
+                <input type="text" name="nombre" class="form-control" disabled="true"
+                  [(ngModel)]="selected_product.nombre" required>
+              </div>
+              <div class="form-group">
+                Categoria
+                <input type="text" name="categoria" class="form-control" disabled="true"
+                  [(ngModel)]="selected_product.categoria" required>
+              </div>
+              <div class="form-group">
+                Precio Inicial (Q.)
+                <input type="text" name="precio" class="form-control" [(ngModel)]="subasta_valor_inicial" required>
+              </div>
+              <div class="form-group">
+                Fecha y Hora de Inicio
+                <input type="datetime-local" class="form-control" id="subasta_inicio" [(ngModel)]="subasta_inicio " >
+              </div>
+              <div class="form-group">
+                Fecha y Hora de Finalización
+                <input type="datetime-local" class="form-control" id="subasta_fin"  [(ngModel)]="subasta_fin" >
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" (click)="subastarProducto()" class="btn btn-primary" data-dismiss="modal">Crear Subasta</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,41 @@
+<div class="row justify-content-center pt-5 mt-5 h-100 ">
+
+  <div class="col-6">
+
+   
+      <div class="panel-heading ">
+        <h1 class="panel-title">INICIAR SESION</h1>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="Login()">
+
+        
+
+        <div class="row">
+          <div class="form-group">
+            <input type="email" name="email" id="email" class="form-control input-sm" formControlName="email"
+              placeholder="Correo Electrónico">
+          </div>
+
+        </div>
+
+        <div class="row ">
+          <div class="form-group">
+            <input type="password" name="password" id="password" class="form-control input-sm"
+              formControlName="password" placeholder="Contraseña">
+          </div>
+        </div>
+
+      
+
+        <input type="submit" value="Iniciar Sesión" class="btn btn-primary btn-block">
+
+      </form>
+  
+  </div>
+
+
+
+
+
+</div>
