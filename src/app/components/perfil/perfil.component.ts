@@ -205,6 +205,10 @@ export class PerfilComponent implements OnInit {
     subasta_fin = new Date;
     subasta_valor_inicial=0;
 
+    formatofecha(fecha: Date){
+        var cadena = fecha.getFullYear()+"-"+fecha.getMonth()+"-"+fecha.getDate()+" "+fecha.getHours()+":"+fecha.getMinutes()+":"+fecha.getSeconds();
+    }
+
     subastarProducto(ini:string, fin:string){
         console.log("EN SUBASTA:");
         console.log(this.selected_product);
@@ -213,8 +217,8 @@ export class PerfilComponent implements OnInit {
         let subasta = {
             producto: this.selected_product,
             valor_inicial: this.subasta_valor_inicial,
-            fecha_hora_inicio : this.subasta_inicio.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}),
-            fecha_hora_fin : this.subasta_fin.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}),
+            fecha_hora_inicio : this.subasta_inicio.toLocaleString('en-CA', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}).replace(",",""),
+            fecha_hora_fin : this.subasta_fin.toLocaleString('en-CA', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}).replace(",",""),
             pujas: []
 
         }
@@ -248,7 +252,7 @@ export class PerfilComponent implements OnInit {
      let exp = new Date(fecha);
      let hoy = new Date();
      let vigente = exp.valueOf() > hoy.valueOf();
-     console.log(fecha+"/"+exp +" - es vigente: "+vigente + "|  expiracion: "+exp.valueOf()+ "hoy: "+hoy.valueOf());
+     //console.log(fecha+"/"+exp +" - es vigente: "+vigente + "|  expiracion: "+exp.valueOf()+ "hoy: "+hoy.valueOf());
      return vigente;
     }
     getSubastasProveedor() {

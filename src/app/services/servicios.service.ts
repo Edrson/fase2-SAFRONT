@@ -8,7 +8,7 @@ import { Router } from '@angular/router'
 })
 export class ServiciosService {
 
-    public URL = 'http://localhost:3000';
+    public URL = 'http://10.182.0.4:3000';
 
     constructor(private http: HttpClient, private router: Router) { }
 
@@ -112,6 +112,11 @@ export class ServiciosService {
         const url = this.URL + '/sa/user/venta/'+idproveedor;
         return this.http.get(url);
     
+    }
+
+    agregarFavoritos(data:any){
+        const url = this.URL + '/sa/product/favorito';
+        return this.http.post(url,data);
     }
 
 

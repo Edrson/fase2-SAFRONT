@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Producto } from 'src/app/models/producto.model';
 import { Categoria } from 'src/app/models/categoria.model';
 import { Catalogo } from 'src/app/models/catalogo.model';
+import { SesionService } from 'src/app/services/sesion.service';
 
 
 @Component({
@@ -21,7 +22,8 @@ productos= new Producto();
   constructor(
     private servicio: ServiciosService,
     private carrito_service: CarritoService,
-    private router: Router
+    private router: Router,
+    private sesion: SesionService
 ) { }
 
 
@@ -83,6 +85,18 @@ productos= new Producto();
     // console.log(producto);
     this.carrito_service.agregarProducto(producto);
     this.router.navigate(['/carrito/'])
+  }
+
+  agregarAFavoritos(producto: Producto, nombrecategoria:string){
+    producto.categoria = nombrecategoria;
+    var hoy = new Date();
+    var favorito ={
+      usuario: this.sesion.getLoggedUserMail(),
+      fecha: hoy.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}),
+      producto: producto
+    }
+    this.servicio.agregarFavoritos(favorito);
+
   }
 
 }
