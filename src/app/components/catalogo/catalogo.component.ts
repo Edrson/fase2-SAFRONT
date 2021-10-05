@@ -72,9 +72,17 @@ productos= new Producto();
 
   agregarACarrito(producto: Producto, nombrecategoria:string){
     producto.categoria = nombrecategoria;
-    console.log("Agregando a Carrito:");
-    console.log(producto);
+    // console.log("Agregando a Carrito:");
+    // console.log(producto);
     this.carrito_service.agregarProducto(producto);
+  }
+
+  compraRapida(producto: Producto, nombrecategoria:string){
+    producto.categoria = nombrecategoria;
+    // console.log("Agregando a Carrito:");
+    // console.log(producto);
+    this.carrito_service.agregarProducto(producto);
+    this.router.navigate(['/carrito/'])
   }
 
 }

@@ -29,6 +29,7 @@ import {
   NgxMatTimepickerModule 
 } from '@angular-material-components/datetime-picker';
 import { PujaComponent } from './components/puja/puja.component';
+import { FavoritosComponent } from './components/favoritos/favoritos.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { PujaComponent } from './components/puja/puja.component';
     CatalogoComponent,
     CarritoComponent,
     SubastaComponent,
-    PujaComponent
+    PujaComponent,
+    FavoritosComponent
   ],
   imports: [
     ReactiveFormsModule,

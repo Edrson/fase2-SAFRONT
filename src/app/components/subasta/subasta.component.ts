@@ -55,6 +55,15 @@ consultarSubastas(){
 );
 }
 
+subastaVigente(fecha:string){
+        
+  let exp = new Date(fecha);
+  let hoy = new Date();
+  let vigente = exp.valueOf() > hoy.valueOf();
+  //console.log(fecha+"/"+exp +" - es vigente: "+vigente + "|  expiracion: "+exp.valueOf()+ "hoy: "+hoy.valueOf());
+  return vigente;
+ }
+
 remainingTime(stringdate:string){
   console.log(stringdate);
   var fecha_fin = new Date(stringdate)

@@ -103,6 +103,18 @@ export class ServiciosService {
         return this.http.post(url,data);
     }
 
+    consultarCompraCliente(idcliente:string){
+        const url = this.URL + '/sa/user/compra/'+idcliente;
+        return this.http.get(url);
+    }
+
+    consultarVenta(idproveedor:string){
+        const url = this.URL + '/sa/user/venta/'+idproveedor;
+        return this.http.get(url);
+    
+    }
+
+
 
 
 

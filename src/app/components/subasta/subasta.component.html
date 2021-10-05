@@ -36,31 +36,13 @@
                 </tr>
               </thead>
               <tbody>
+                <div></div>
                  <tr *ngFor="let subasta of ListaSubastas" (click)="onSelect(subasta)">
-                  <td>{{subasta.producto.nombre}}</td>
-                  <td> <img src="{{subasta.producto.foto}}" class="img-thumbnail" width="50" height="50"></td>
-                  <td>{{subasta.producto.descripcion}}</td>
-                  <td>{{subasta.valor_inicial}}</td>
-                  <td> {{subasta.fecha_hora_fin}}</td>
-                  <!-- <td>
-                    <div class="row m-2">
-                     
-                       
-                        <label class="btn btn-primary " (click)="onSelect(subasta)" data-toggle="modal"
-                        data-target="#editproduct">
-                        <span class="material-icons">
-                         campaign
-                        </span>
-                       
-                      </label>
-                     
-
-                       
-                    
-  
-                    </div>
-  
-                  </td> -->
+                  <td *ngIf="subastaVigente(subasta.fecha_hora_fin)">{{subasta.producto.nombre}}</td>
+                  <td *ngIf="subastaVigente(subasta.fecha_hora_fin)"> <img src="{{subasta.producto.foto}}" class="img-thumbnail" width="50" height="50"></td>
+                  <td *ngIf="subastaVigente(subasta.fecha_hora_fin)">{{subasta.producto.descripcion}}</td>
+                  <td *ngIf="subastaVigente(subasta.fecha_hora_fin)">{{subasta.valor_inicial}}</td>
+                  <td *ngIf="subastaVigente(subasta.fecha_hora_fin)"> {{subasta.fecha_hora_fin |date:'dd LLL yyyy  HH:mm' }}</td>
                 </tr> 
   
               </tbody>

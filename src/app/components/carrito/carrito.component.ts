@@ -93,13 +93,15 @@ export class CarritoComponent implements OnInit {
      detalle: this.ListaProductos,
    }
    console.log(compra);
-   this.ListaProductos =  this.servicio_carrito.getCarrito();
+   
    this.servicio.registrarCompra(compra).subscribe(
     (res: any) => {
         console.log(res);
 
         if (res.statusCode == 200) {
           alert(res.message);
+          this.servicio_carrito.crearCarrito();
+          this.ListaProductos = this.servicio_carrito.getCarrito();
          
         } else {
             alert(res.message);

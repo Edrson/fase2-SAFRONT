@@ -5,7 +5,8 @@ import { Producto } from 'src/app/models/producto.model';
 import { Tarjeta } from 'src/app/models/tarjeta.model';
 import { Categoria } from 'src/app/models/categoria.model';
 import { Subasta } from 'src/app/models/subasta.model';
-
+import { Compra } from 'src/app/models/compra.model';
+import { Venta } from 'src/app/models/venta.model';
 
 @Component({
     selector: 'app-perfil',
@@ -17,18 +18,13 @@ export class PerfilComponent implements OnInit {
     constructor(
         private servicio: ServiciosService,
         private router: Router
-    ) { }
+    ) {
+
+        
+     }
 
     mail = localStorage.getItem("logged_user_mail");
     tarjetas: Tarjeta[] = [];
-  
-    ngOnInit(): void {
-        this.getProfile();
-        this.getProducts();
-        this.getSubastasProveedor();
-        console.log("Es Cliente: "+this.EsCliente);
-    }
-
     EsCliente = true;
     Nombre = "";
     Apellido = "";
@@ -37,14 +33,30 @@ export class PerfilComponent implements OnInit {
     Tipo = ""
     Tarjetas: any[] = [];
    
-  
-
     productosProveedor: Producto[] = [];
     categoriasProveedor: Categoria[] = [];
     ListaSubastas: Subasta[]=[];
+    ListaCompras: Compra[]=[];
+    ListaVentas: Venta[]=[];
+    total_ventas: number=0;
+    unidades_ventas: number=0;
 
     time = {hour: 13, minute: 30};
 
+    selected_product:Producto = new Producto();
+    new_product :Producto = new Producto();
+
+  
+    ngOnInit(): void {
+        this.getProfile();
+        this.getProducts();
+        this.getSubastasProveedor();
+        this.getComprasCliente();
+        this.getVentasProveedor();
+        console.log("Es Cliente: "+this.EsCliente);
+    }
+
+    
     getProfile() {
         this.servicio.consultarUsuario(this.mail!).subscribe(
             (res: any) => {
@@ -189,19 +201,20 @@ export class PerfilComponent implements OnInit {
         );
     }
 
-    subasta_inicio = new Date();
-    subasta_fin = new Date();
+    subasta_inicio =new Date;
+    subasta_fin = new Date;
     subasta_valor_inicial=0;
 
-    subastarProducto(){
+    subastarProducto(ini:string, fin:string){
         console.log("EN SUBASTA:");
         console.log(this.selected_product);
-
+        this.subasta_inicio = new Date(ini);
+        this.subasta_fin = new Date(fin);
         let subasta = {
             producto: this.selected_product,
             valor_inicial: this.subasta_valor_inicial,
-            fecha_hora_inicio :  this.subasta_inicio.toLocaleString(undefined, {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}),
-            fecha_hora_fin : this.subasta_fin.toLocaleString(undefined, {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}),
+            fecha_hora_inicio : this.subasta_inicio.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}),
+            fecha_hora_fin : this.subasta_fin.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}),
             pujas: []
 
         }
@@ -231,9 +244,11 @@ export class PerfilComponent implements OnInit {
     }
    
     subastaVigente(fecha:string){
+        
      let exp = new Date(fecha);
      let hoy = new Date();
-     let vigente = exp > hoy;
+     let vigente = exp.valueOf() > hoy.valueOf();
+     console.log(fecha+"/"+exp +" - es vigente: "+vigente + "|  expiracion: "+exp.valueOf()+ "hoy: "+hoy.valueOf());
      return vigente;
     }
     getSubastasProveedor() {
@@ -260,24 +275,66 @@ export class PerfilComponent implements OnInit {
 
     }
 
-    selected_product =  {
-        categoria:"",
-        precio:"",
-        stock: "",
-        nombre: "",
-        descripcion: "",
-        proveedor:"",
-        foto: "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2018/07/cajas-carton-embalaje-pedidos-transporte-paquetes.jpg"
-    };
-    new_product =  {
-        categoria:"",
-        precio:"",
-        stock: "",
-        nombre: "",
-        descripcion: "",
-        proveedor:"",
-        foto: "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/media/image/2018/07/cajas-carton-embalaje-pedidos-transporte-paquetes.jpg"
-    };
+    getComprasCliente() {
+      
+        this.servicio.consultarCompraCliente(this.mail!).subscribe(
+            
+            (res: any) => {
+               
+                console.log(res);
+                if (res.statusCode == 200) {
+                   this.ListaCompras = res.data;
+                     
+                } else {
+                    alert(res.msj);
+                }
+            },
+
+            err => {
+                console.error(err)
+                alert("Error")
+                this.router.navigate(['/perfil/']); //prueba.
+            }
+        );
+
+    }
+
+    getVentasProveedor() {
+        
+        this.servicio.consultarVenta(this.mail!).subscribe(
+            
+            (res: any) => {
+               
+                console.log(res);
+                if (res.statusCode == 200) {
+                this.ListaVentas = res.data;
+                this.getMontosVentas();
+                } else {
+                    alert(res.msj);
+                }
+            },
+
+            err => {
+                console.error(err)
+                alert("Error")
+                this.router.navigate(['/perfil/']); //prueba.
+            }
+        );
+
+    }
+
+    getMontosVentas(){
+        var monto:number =0;
+        var cantidad:number =0;
+        this.ListaVentas.forEach(element => {
+            monto += element.detalle.precio * element.detalle.unidades;
+            cantidad += element.detalle.unidades;
+        });
+        this.total_ventas = monto;
+        this.unidades_ventas = cantidad;
+        console.log("tot:"+this.total_ventas+" cant:"+this.unidades_ventas)
+    }
+
 
     onSelect(prod: any) {
         this.selected_product=prod;

@@ -15,24 +15,42 @@
       </div>
 
       <div class="col m-1">
-        <div class="card mb-1 p-3"> <b>Nombre:</b> {{Nombre}}</div>
-        <div class="card mb-1 p-3"><b>Apellido:</b>{{Apellido}}</div>
-        <div class="card mb-1 p-3"><b>Correo</b> {{Correo}}</div>
+       
+        <div class="card mb-1 p-3">
+          <h6> Información Personal</h6>
+          <p>
+            <b>Nombre:</b> {{Nombre}} {{Apellido}} <br>
+            <b>Correo:</b> {{Correo}}
+          </p>
+      </div>
+      <div class="card mb-1 p-3">
+        <h6>TARJETAS ASOCIADAS</h6>
+        <table class="table table-hover table-striped col-12">
+          <thead>
+            <tr>
+              <!-- <th scope="col">Categoría</th> -->
+              <th scope="col">Tarjeta.</th>
+              <th scope="col">Titular</th>
+              <th scope="col">Exp.</th>
+              <!-- <th scope="col">Puja</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tarjeta of Tarjetas">
+              <td>{{tarjeta.numero}}</td>
+              <td>{{tarjeta.titular}}</td>
+              <td>{{tarjeta.vencimiento}}</td>
+            </tr> 
+
+          </tbody>
+
+        </table>
       </div>
     </div>
 
-    <!-- ------------------TARJETAS DEL CLIENTE-->
-    <div class="row mt-2">
-      <h5>Tarjetas Asociadas </h5>
-      <div class="card mb-1 p-3 " *ngFor=" let tarjeta of Tarjetas ">
-        <div class="row mx-auto">Titular: {{tarjeta.titular}}</div>
-        <div class="row mx-auto">Número: {{tarjeta.numero}}</div>
-        <div class="row mx-auto">Expira: {{tarjeta.vencimiento}}</div>
-      </div>
-    </div>
-
+   
     <!-- ------------------TABS-->
-
+    <div id="tabs">
     <ul class="nav nav-tabs mt-2">
       <li class="nav-item">
         <a class="nav-link active" data-bs-toggle="tab" href="#productos">Productos</a>
@@ -116,7 +134,7 @@
             </div>
 
       </div>
-      <div class="tab-pane fade" id="subastas">
+      <div class="tab-pane fade p-3" id="subastas">
           
         <div class="mt-5" *ngIf="true">
           <div class="row">
@@ -145,34 +163,16 @@
                     <td>{{subasta.producto.descripcion}}</td>
                     <td>{{subasta.valor_inicial}}</td>
                     <td> 
-                      <div *ngIf="subastaVigente(subasta.fecha_hora_fin); else cerrada">
-                        Abierta hasta {{subasta.fecha_hora_fin}} 
+                      <div *ngIf="subastaVigente(subasta.fecha_hora_fin)">
+                        Abierta hasta {{subasta.fecha_hora_fin|date:'dd LLL yyyy  HH:mm' }} 
                       </div>
-                      <ng-template #cerrada>
-                       Cerrada el  {{subasta.fecha_hora_fin}} 
-                      </ng-template>
+                      <div *ngIf="!subastaVigente(subasta.fecha_hora_fin)">
+                        Cerró el {{subasta.fecha_hora_fin |date:'dd LLL yyyy  HH:mm' }} 
+                      </div>
                      
 
                     </td>
-                    <!-- <td>
-                      <div class="row m-2">
-                      
-                        
-                          <label class="btn btn-primary " (click)="onSelect(subasta)" data-toggle="modal"
-                          data-target="#editproduct">
-                          <span class="material-icons">
-                          campaign
-                          </span>
-                        
-                        </label>
-                      
-
-                        
-                      
-    
-                      </div>
-    
-                    </td> -->
+                  
                   </tr> 
     
                 </tbody>
@@ -185,15 +185,119 @@
     
         </div>
       </div>
-      <div class="tab-pane fade" id="compras">
-        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork.</p>
+      <div class="tab-pane fade p-3" id="compras">
+          
+        <div class="row">
+          <div class="col-12 col-md-12">
+            <h4>Compras </h4>
+          </div>
+
+          <div id="accordion"  *ngFor="let compra of ListaCompras">
+            <div class="card">
+              <div class="accordion-item" id="heading{{compra._id}}">
+                <h5 class="mb-0 accordion-header">
+                  <button class="accordion-button collapsed" data-toggle="collapse" [attr.data-target]="'#a'+compra._id" aria-expanded="true" [attr.aria-controls]="'#a'+compra._id">
+                   Compra del {{compra.fecha}} - ID #{{compra._id}}
+                  </button>
+                </h5>
+              </div>
+          
+              <div id="a{{compra._id}}" class="collapse"  [attr.aria-labelledby]="'heading'+compra._id"data-parent="#accordion">
+                <div class="card-body">
+
+                  <div class="table-responsive card p-5">
+                    <table class="table table-hover table-striped col-12">
+                      <thead>
+                        <tr>
+                          <!-- <th scope="col">Categoría</th> -->
+                          <th scope="col">Nombre</th>
+                          <th scope="col">Foto</th>
+                          <th scope="col">Cantidad</th>
+                          <th scope="col">Sub Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let producto of compra.detalle">
+                          <td>
+                            <b>{{producto.nombre}}</b> <br>
+                            {{producto.descripcion}}
+                          </td>
+                          <td><img src="{{producto.foto}}" class="img-thumbnail" width="100" height="100"></td>
+                          <td>{{producto.unidades}}</td>
+                          <td> {{producto.precio * producto.unidades | currency:'Q.'}}</td>
+                        </tr>
+                        <tr class="table-dark">
+                          <th scope="row">Sub Total</th>
+                          <td> </td>
+                          <td> </td>
+                          <th>{{compra.monto| currency:'Q.'}}</th>
+                        </tr>
+                        <tr class="table-light">
+                          <th scope="row">Envío</th>
+                          <td> </td>
+                          <td> </td>
+                          <th>{{compra.envio| currency:'Q.'}}</th>
+                        </tr>
+                        <tr class="table-dark">
+                          <th scope="row"> TOTAL</th>
+                          <td> </td>
+                          <td> </td>
+                          <th><b>{{compra.total| currency:'Q.'}}</b></th>
+                        </tr>
+          
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+
+        </div>  
       </div>
-      <div class="tab-pane fade" id="ventas">
-        <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater.</p>
+      <div class="tab-pane fade p-3" id="ventas">
+          
+        <div class="table-responsive card">
+          <table class="table table-hover table-striped col-12">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Artículo</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Unidades</th>
+                <th scope="col">SubTotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let venta of ListaVentas">
+                <td><img src="{{venta.detalle.foto}}" class="img-thumbnail" width="100" height="100"></td>
+                <td>
+                  <b>{{venta.detalle.nombre}} ({{venta.detalle.precio| currency:'Q.'}})</b><br>
+                  {{venta.detalle.descripcion}}
+                </td>
+                
+                <td>{{venta.fecha}}</td>
+                <td>{{venta.detalle.unidades}}</td>
+                <td> {{venta.detalle.precio * venta.detalle.unidades | currency:'Q.'}}</td>
+              </tr>
+              
+              <tr class="table-dark">
+                <th scope="row"> TOTAL</th>
+                <td> </td>
+                <td> </td>
+                <td> {{unidades_ventas }}</td>
+                <th><b>{{total_ventas| currency:'Q.'}}</b></th>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-
+  </div>
 
 
 
@@ -393,12 +497,14 @@
               </div>
               <div class="form-group">
                 Fecha y Hora de Inicio
-                <input type="datetime-local" class="form-control" id="subasta_inicio" [(ngModel)]="subasta_inicio " >
+                <input type="datetime-local" class="form-control" id="subasta_i" [value]="subasta_inicio" #fini >
               </div>
               <div class="form-group">
                 Fecha y Hora de Finalización
-                <input type="datetime-local" class="form-control" id="subasta_fin"  [(ngModel)]="subasta_fin" >
+                <input type="datetime-local" class="form-control" id="subasta_f"  [value]="subasta_fin" #ffin>
               </div>
+
+              
             </div>
 
           </form>
@@ -406,7 +512,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" (click)="subastarProducto()" class="btn btn-primary" data-dismiss="modal">Crear Subasta</button>
+          <button type="button" (click)="subastarProducto(fini.value, ffin.value)" class="btn btn-primary" data-dismiss="modal">Crear Subasta</button>
         </div>
       </div>
     </div>

@@ -21,8 +21,6 @@ export class CarritoService {
         if (!localStorage.getItem("carrito")) {
             this.crearCarrito();
         }
-
-
     }
 
     agregarProducto(producto: Producto) {

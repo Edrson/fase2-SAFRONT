@@ -1,127 +1,142 @@
 <div class="row justify-content-center pt-5 mt-5 h-100 ">
 
-  <div class="col-12 col-sm-12 col-xs-12 col-md-8">
+      <div class="col-12 col-sm-12 col-xs-12 col-md-8">
 
-    <div class="row justify-content-center ">
-      <div class="panel-heading col-8 m-3">
-        <h1 class="panel-title text-center">SUBASTA DE PRODUCTO: </h1>
-      </div>
-    </div>
-    <div class="row justify-content-center align-content-center">
-      <div class="col-sm-12 col-md-4 col-8">
-        <div class="row row-md-4 justify-content-center">
-          <img src="{{subasta.producto.foto}} " class="img-thumbnail" width="50" height="50">
-        </div>
-      </div>
+            <div class="row justify-content-center ">
+                  <div class="panel-heading col-8 m-3">
+                        <h1 class="panel-title text-center">SUBASTA DE PRODUCTO </h1>
+                  </div>
+            </div>
+            <div class="row justify-content-center align-content-center">
+                  <div class="col-sm-12 col-md-4 col-8">
+                        <div class="row row-md-4 justify-content-center">
+                              <img src="{{subasta.producto.foto}} " class="img-thumbnail" width="50" height="50">
+                        </div>
+                  </div>
 
-      <div class="col m-1">
-        <div class="card mb-1 p-3"> 
-            <b>Artículo:</b> {{subasta.producto.nombre}} 
-            <b>Descripcion:</b> {{subasta.producto.descripcion}} 
-        </div>
-        <div class="card mb-1 p-3"><b>Precio Actual:</b> <h3>{{puja_max.puja | currency:'Q.'}}</h3></div>
-        <div class="card mb-1 p-3">
-            <b>Agregar Puja</b> 
-            <div class="col-12 col-md-12 md-3">
-                <form class="d-flex">
-                    <input class="form-control me-sm-2" type="number" name="monto" placeholder="Ingrese Monto" min="1" step="any" [(ngModel)]="monto_puja">
-                    <button class="btn btn-primary my-2 my-sm-0 m-1"  data-toggle="modal"
-                    data-target="#insertarpuja">  
-                        <span class="material-icons">paid</span>
-                    </button>
-                </form>
-          </div>
+                  <div class="col m-1">
+                        <div class="card mb-1 p-3">
+                              <b>Artículo:</b> {{subasta.producto.nombre}}
+                              <b>Descripcion:</b> {{subasta.producto.descripcion}}
+                        </div>
+                        <div class="card mb-1 p-3">
+                              <div class="row align-content-center" *ngIf="abierto">
+                                    <div class="col">
+                                          <b>Precio Actual:</b>
+                                          <h3>{{puja_max.puja | currency:'Q.'}}</h3>
+                                    </div>
+                                    <div class="col align-middle align-content-center">
+                                          <h5>Finaliza En:</h5>
+                                          <blockquote class="blockquote">
+                                          <p>{{days_remaining}} días {{hours_remaining}}h {{minutes_remaining}}m {{seconds_remaining}}s </p>
+                                          </blockquote>
+                                    </div>
+                              </div>
+                              <div  *ngIf="!abierto">
+                                    <h3>SUBASTA FINALIZADA</h3>
+                              </div>
+                        </div>
+                        <div class="card mb-1 p-3" *ngIf="abierto==true">
+                              <b>Agregar Puja</b>
+                              <div class="col-12 col-md-12 md-3" >
+                                    <form class="d-flex">
+                                          <input class="form-control me-sm-2" type="number" name="monto"
+                                                placeholder="Ingrese Monto" min="1" step="any" [(ngModel)]="monto_puja">
+                                          <button class="btn btn-primary my-2 my-sm-0 m-1" data-toggle="modal"
+                                                data-target="#insertarpuja">
+                                                <span class="material-icons">paid</span>
+                                          </button>
+                                    </form>
+                              </div>
 
-        </div>
-      </div>
-    </div>
+                        </div>
+                  </div>
+            </div>
 
 
 
-    <!-- ------------------HISTORIAL DE PUJAS -->
+            <!-- ------------------HISTORIAL DE PUJAS -->
 
-    <div class="mt-5">
-      <div class="row">
-          
-        <div class="row">
+            <div class="mt-5">
+                  <div class="row">
 
-          <div class="col-4 col-md-4">
-            <h4>Pujas </h4>
-          </div>
+                        <div class="row">
 
-          <div class="col-8 col-md-8 md-3">
-                <!-- <form class="d-flex">
+                              <div class="col-4 col-md-4">
+                                    <h4>Pujas </h4>
+                              </div>
+
+                              <div class="col-8 col-md-8 md-3">
+                                    <!-- <form class="d-flex">
                     <input class="form-control me-sm-2" type="number" name="monto" placeholder="Ingrese Monto" min="1" step="any"  [(ngModel)]="monto_puja">
                     <button class="btn btn-primary my-2 my-sm-0 m-1"  data-toggle="modal"
                     data-target="#insertarpuja">  
                         <span class="material-icons">paid</span>
                     </button>
                 </form> -->
-          </div>
-         
+                              </div>
 
 
-        </div>
 
-        <div class="table-responsive">
+                        </div>
 
-          <table class="table table-hover table-striped col-12">
-            <thead>
-              <tr>
-                <!-- <th scope="col">Categoría</th> -->
-                <th scope="col">Usuario</th>
-                <th scope="col">Hora</th>
-                <th scope="col">Oferta</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let puja of subasta.pujas">
-                <td>{{puja.usuario}}</td>
-                <td>{{puja.fecha_hora}}</td>
-                <td>{{puja.puja  | currency:'Q.'}}</td>
-              </tr>
+                        <div class="table-responsive">
 
-            </tbody>
+                              <table class="table table-hover table-striped col-12">
+                                    <thead>
+                                          <tr>
+                                                <!-- <th scope="col">Categoría</th> -->
+                                                <th scope="col">Usuario</th>
+                                                <th scope="col">Hora</th>
+                                                <th scope="col">Oferta</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                          <tr *ngFor="let puja of subasta.pujas">
+                                                <td>{{puja.usuario}}</td>
+                                                <td>{{puja.fecha_hora}}</td>
+                                                <td>{{puja.puja | currency:'Q.'}}</td>
+                                          </tr>
 
-          </table>
-        </div>
+                                    </tbody>
 
+                              </table>
+                        </div>
+
+                  </div>
+
+
+            </div>
       </div>
 
 
-    </div>
-  </div>
 
-
-  
 </div>
 
 
- <!-- MODAL AGREGAR PUJA -->
- <div class="modal fade " id="insertarpuja" data-backdrop="static" data-keyboard="false" tabindex="-1"
- aria-labelledby="editcarpetLabel" aria-hidden="true">
- <div class="modal-dialog">
-   <div class="modal-content">
-     <div class="modal-header  bg-primary">
-       <h4 class="modal-title" id="editproduct">
-         <ng-container>
-           Agregar Puja
-         </ng-container>
-       </h4>
-       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-         <span aria-hidden="true">&times;</span>
-       </button>
-     </div>
-     <div class="modal-body">
-      Desea hacer una puja por {{monto_puja | currency:'Q.'}}?
-     </div>
-     <div class="modal-footer">
-       <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-       <button type="button" (click)="ingresarPuja()" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
-     </div>
-   </div>
- </div>
+<!-- MODAL AGREGAR PUJA -->
+<div class="modal fade " id="insertarpuja" data-backdrop="static" data-keyboard="false" tabindex="-1"
+      aria-labelledby="editcarpetLabel" aria-hidden="true">
+      <div class="modal-dialog">
+            <div class="modal-content">
+                  <div class="modal-header  bg-primary">
+                        <h4 class="modal-title" id="editproduct">
+                              <ng-container>
+                                    Agregar Puja
+                              </ng-container>
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                        </button>
+                  </div>
+                  <div class="modal-body">
+                        Desea hacer una puja por {{monto_puja | currency:'Q.'}}?
+                  </div>
+                  <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+                        <button type="button" (click)="ingresarPuja()" class="btn btn-primary"
+                              data-dismiss="modal">Aceptar</button>
+                  </div>
+            </div>
+      </div>
 </div>
-
-
-
