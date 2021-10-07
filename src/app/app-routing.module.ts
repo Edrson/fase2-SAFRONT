@@ -8,6 +8,7 @@ import { CatalogoComponent } from './components/catalogo/catalogo.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { SubastaComponent } from './components/subasta/subasta.component';
 import { PujaComponent } from './components/puja/puja.component';
+import { FavoritosComponent } from './components/favoritos/favoritos.component';
 
 const routes: Routes = [
 
@@ -34,6 +35,10 @@ const routes: Routes = [
     {
         path: 'subasta',
         component: SubastaComponent
+    },
+    {
+        path: 'favoritos',
+        component: FavoritosComponent
     },
     {
         path: 'subasta/:id',

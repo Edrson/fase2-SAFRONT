@@ -95,7 +95,22 @@ productos= new Producto();
       fecha: hoy.toLocaleString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', hour12: false, minute:'2-digit'}),
       producto: producto
     }
-    this.servicio.agregarFavoritos(favorito);
+    this.servicio.agregarFavoritos(favorito).subscribe(
+      (res: any) => {
+          console.log(res);
+          if (res.statusCode == 200) {
+           alert("Se agregó a tus favoritos: "+favorito.producto.nombre)
+          } else {
+              alert(res.msj);
+          }
+      },
+
+      err => {
+          console.error(err)
+          alert("Error")
+          this.router.navigate(['/perfil/']); //prueba.
+      }
+  );;
 
   }
 

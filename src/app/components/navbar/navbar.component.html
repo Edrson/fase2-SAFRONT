@@ -1,28 +1,43 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">TangoCart</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+  <div id="logo" class="navbar-brand flex-col logo" href="#">
+    <!-- Header logo -->
+    <a href="" title="TANGO CART" rel="home">
+      <img width="200" height="76" src="assets/img/tangocart.png" class="header-logo-dark" alt="TANGOCART"></a>
+  </div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li  class="nav-item" >  <a  class="nav-link" [routerLink]="['login']" [routerLinkActive]="['active']" >LOGIN</a> </li>
-            <li  class="nav-item" >  <a  class="nav-link" [routerLink]="['registro']" [routerLinkActive]="['active']" >REGISTRO</a> </li>
-            <li  class="nav-item" >  <a  class="nav-link" [routerLink]="['catalogo']" [routerLinkActive]="['active']" >CATÁLOGO</a> </li>
-            <li  class="nav-item" >  <a  class="nav-link" [routerLink]="['perfil']" [routerLinkActive]="['active']" >PERFIL</a> </li>
-            <li  class="nav-item" >  <a  class="nav-link" [routerLink]="['subasta']" [routerLinkActive]="['active']" >SUBASTAS</a> </li>
-            
-        
-        </ul>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-        <div class="navbar-nav navbar-right">
-            <li  class="nav-item" >  <a  class="nav-link" [routerLink]="['favoritos']" [routerLinkActive]="['active']" > <mat-icon id="">favorite</mat-icon></a> </li>
-            <li  class="nav-item" >  <a  class="nav-link" [routerLink]="['carrito']" [routerLinkActive]="['active']" > <mat-icon id="">shopping_cart</mat-icon></a> </li>
-            <li  class="nav-item" >  <a  class="nav-link" [routerLink]="['login']" [routerLinkActive]="['active']" > <mat-icon id="">logout</mat-icon></a> </li>
-        </div>
-        
-      
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item"> <a class="nav-link" [routerLink]="['login']" [routerLinkActive]="['active']">LOGIN</a> </li>
+      <li class="nav-item"> <a class="nav-link" [routerLink]="['registro']" [routerLinkActive]="['active']">REGISTRO</a>
+      </li>
+      <li class="nav-item"> <a class="nav-link" [routerLink]="['catalogo']" [routerLinkActive]="['active']">CATÁLOGO</a>
+      </li>
+      <li class="nav-item"> <a class="nav-link" [routerLink]="['perfil']" [routerLinkActive]="['active']">PERFIL</a>
+      </li>
+      <li class="nav-item"> <a class="nav-link" [routerLink]="['subasta']" [routerLinkActive]="['active']">SUBASTAS</a>
+      </li>
 
+
+    </ul>
+
+    <div class="navbar-nav navbar-right">
+      <li class="nav-item"> <a class="nav-link" [routerLink]="['favoritos']" [routerLinkActive]="['active']">
+          <mat-icon id="">favorite</mat-icon>
+        </a> </li>
+      <li class="nav-item"> <a class="nav-link" [routerLink]="['carrito']" [routerLinkActive]="['active']">
+          <mat-icon id="">shopping_cart</mat-icon>
+        </a> </li>
+      <li class="nav-item"> <a class="nav-link" [routerLink]="['login']" [routerLinkActive]="['active']">
+          <mat-icon id="">logout</mat-icon>
+        </a> </li>
     </div>
+
+
+
+  </div>
 </nav>
