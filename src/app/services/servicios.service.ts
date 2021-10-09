@@ -8,7 +8,7 @@ import { Router } from '@angular/router'
 })
 export class ServiciosService {
 
-    public URL = 'http://34.125.203.2490';
+    public URL = 'http://34.125.203.249';
 
     constructor(private http: HttpClient, private router: Router) { }
 
