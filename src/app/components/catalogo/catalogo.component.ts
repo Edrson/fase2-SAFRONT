@@ -6,6 +6,7 @@ import { Producto } from 'src/app/models/producto.model';
 import { Categoria } from 'src/app/models/categoria.model';
 import { Catalogo } from 'src/app/models/catalogo.model';
 import { SesionService } from 'src/app/services/sesion.service';
+import { Producto2 } from 'src/app/models/producto2.model';
 
 
 @Component({
@@ -18,6 +19,9 @@ export class CatalogoComponent implements OnInit {
 catalogo = new Catalogo();
 Categorias = this.catalogo.categorias;
 
+propio = true;
+arrayProductos:Producto[] = [];
+
 productos= new Producto();
   constructor(
     private servicio: ServiciosService,
@@ -26,51 +30,48 @@ productos= new Producto();
     private sesion: SesionService
 ) { }
 
+  transformarCatalogo(productos:Producto[]):void{
+   productos.forEach(element => {
+     element.categoria = element.categorias[0];
+     this.arrayProductos.push(element);
+   });
+  }
 
 
   ngOnInit(): void {
-    this.servicio.consultarCatalogo().subscribe(
+    this.servicio.consultarCatalogo(this.sesion.getConnectedGroupNumber(), this.sesion.getLoggedUserToken()).subscribe(
           (res: any) => {
               console.log("CATALOGO ES:");
-              console.log(res);
+              console.log(res.data);
+              console.log("statuscode: "+res.statusCode)
               if (res.statusCode == 200) {
+                if (this.sesion.getConnectedGroupNumber()=='1'){
+                console.log("grupo1")
                 this.Categorias = res.data;
+                this.propio = true;
+                }
+                else{
+                  console.log("grupo ajeno")
+                this.propio = false;
+                this.arrayProductos = res.data;
+                console.log(this.arrayProductos);
+                
+                }
               } else {
-                  alert(res.msj);
+                  alert(res);
+                
               }
           },
 
           err => {
               console.error(err)
-              alert("Error")
-              this.router.navigate(['/perfil/']); //prueba.
+              // alert("Error")
+              // this.router.navigate(['/perfil/']); //prueba.
           }
       );
 
   }
 
-  getCatalogo(){
-
-      this.servicio.consultarCatalogo().subscribe(
-          (res: any) => {
-              console.log("CATALOGO ES:");
-              console.log(res);
-              if (res.statusCode == 200) {
-                this.Categorias = res.data;
-              } else {
-                  alert(res.msj);
-              }
-          },
-
-          err => {
-              console.error(err)
-              alert("Error")
-              this.router.navigate(['/perfil/']); //prueba.
-          }
-      );
-
-  
-  }
 
   agregarACarrito(producto: Producto, nombrecategoria:string){
     producto.categoria = nombrecategoria;

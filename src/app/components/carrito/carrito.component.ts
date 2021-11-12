@@ -26,7 +26,15 @@ export class CarritoComponent implements OnInit {
   ngOnInit(): void {
     this.ListaProductos = this.servicio_carrito.getCarrito();
     this.getLoggedUserCards();
-  
+    if (this.Tarjetas.length ==0){
+      let tarjeta_predefinida:Tarjeta ={
+        titular: "TARJETA DE REGALO",
+        numero: 202100001,
+        vencimiento: "11/08/2025"
+      }
+      this.Tarjetas.push(tarjeta_predefinida);
+    }
+   
   }
   Envio_Flag= "false";
   Monto:number =0;
@@ -94,7 +102,7 @@ export class CarritoComponent implements OnInit {
    }
    console.log(compra);
    
-   this.servicio.registrarCompra(compra).subscribe(
+   this.servicio.registrarCompra(compra,this.servicio_sesion.getConnectedGroupNumber(),this.servicio_sesion.getLoggedUserToken()).subscribe(
     (res: any) => {
         console.log(res);
 

@@ -5,6 +5,7 @@ import { ServiciosService } from '../../services/servicios.service';
 import { Title } from '@angular/platform-browser';
 import { Tarjeta } from 'src/app/models/tarjeta.model';
 import { Router } from '@angular/router';
+import { SesionService } from 'src/app/services/sesion.service';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class RegistroComponent implements OnInit {
         private formBuilder: FormBuilder,
         private servicios: ServiciosService,
         private titleService: Title,
-        private router : Router
+        private router : Router,
+        private sesion: SesionService
     ) { }
 
     ngOnInit(): void {
@@ -42,7 +44,7 @@ export class RegistroComponent implements OnInit {
 
     Register() {
         console.log(this.registerForm.value);
-        const data = {
+        var data = {
             email: this.registerForm.value.email,
             _id : this.registerForm.value.email,
             nombre: this.registerForm.value.name,
@@ -55,9 +57,12 @@ export class RegistroComponent implements OnInit {
                 numero: this.registerForm.value.numero,
                 vencimiento: this.registerForm.value.vencimiento
 
-            }]
+            }],
+            grupo:this.sesion.getConnectedGroupNumber(),
+            servicio:1
         };
 
+     
         this.servicios.registrarUsuario(data).subscribe(
             (res:any) => {
                 console.log("EXITO");

@@ -7,6 +7,7 @@ import { Categoria } from 'src/app/models/categoria.model';
 import { Subasta } from 'src/app/models/subasta.model';
 import { Compra } from 'src/app/models/compra.model';
 import { Venta } from 'src/app/models/venta.model';
+import { SesionService } from 'src/app/services/sesion.service';
 
 @Component({
     selector: 'app-perfil',
@@ -17,7 +18,8 @@ export class PerfilComponent implements OnInit {
 
     constructor(
         private servicio: ServiciosService,
-        private router: Router
+        private router: Router,
+        private sesion: SesionService
     ) {
 
         
@@ -78,6 +80,10 @@ export class PerfilComponent implements OnInit {
                         this.Tipo = "Proveedor"
                         this.EsCliente = false;
                     }
+                    else if (res.data.tipo == "A") {
+                    this.Tipo = "Administrador"
+                    this.EsCliente = false;
+                    }
                 } else {
                     alert(res.msj);
                 }
@@ -86,7 +92,7 @@ export class PerfilComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert("Error")
+                //alert("Error")
                 this.router.navigate(['/registro/']); //prueba.
             }
         );
@@ -116,7 +122,7 @@ export class PerfilComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert("Error")
+                //alert("Error")
                 this.router.navigate(['/perfil/']); //prueba.
             }
         );
@@ -128,12 +134,13 @@ export class PerfilComponent implements OnInit {
         this.new_product.proveedor = this.mail!;
         console.log(this.new_product);
 
-        this.servicio.agregarProducto(this.new_product).subscribe(
+        this.servicio.agregarProducto(this.new_product, this.sesion.getConnectedGroupNumber(),this.sesion.getLoggedUserToken()).subscribe(
             (res: any) => {
               
                 console.log(res);
                 if (res.statusCode == 200) {
                     console.log("exito");
+                    alert(res.message)
 
                 } else {
                     alert(res.msj);
@@ -143,7 +150,7 @@ export class PerfilComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert("Error")
+                //alert("Error")
                 //this.router.navigate(['/registro/']); //prueba.
             }
         );
@@ -170,7 +177,7 @@ export class PerfilComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert("Error")
+                //alert("Error")
                 //this.router.navigate(['/registro/']); //prueba.
             }
         );
@@ -195,7 +202,7 @@ export class PerfilComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert("Error")
+                //alert("Error")
                 //this.router.navigate(['/registro/']); //prueba.
             }
         );
@@ -240,7 +247,7 @@ export class PerfilComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert("Error")
+                //alert("Error")
                 //this.router.navigate(['/registro/']); //prueba.
             }
         );
@@ -272,7 +279,7 @@ export class PerfilComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert("Error")
+                //alert("Error")
                 this.router.navigate(['/perfil/']); //prueba.
             }
         );
@@ -296,7 +303,7 @@ export class PerfilComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert("Error")
+                //alert("Error")
                 this.router.navigate(['/perfil/']); //prueba.
             }
         );
@@ -320,7 +327,7 @@ export class PerfilComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert("Error")
+                //alert("Error")
                 this.router.navigate(['/perfil/']); //prueba.
             }
         );

@@ -35,18 +35,19 @@ export class LoginComponent implements OnInit {
             password: this.loginForm.value.password
         };
 
-        this.servicio.loguearUsuario(data.email, data.password).subscribe(
+        this.servicio.loguearUsuario(data.email, data.password,this.sesion_service.getConnectedGroupNumber()).subscribe(
             (res: any) => {
                 console.log(res);
 
                 if (res.statusCode == 200) {
-                   // alert(res.message);
+                    alert(res.message);
                     if (res.login.correct) {
 
                         //localStorage.setItem('logged_user_data', JSON.stringify(res.data[0]));
                         localStorage.setItem('logged_user_mail', data.email);
                         localStorage.setItem('logged_user_type', res.login.userType);
-                        this.router.navigate(['/perfil']);
+                        localStorage.setItem('logged_user_token', res.login.token);
+                        this.router.navigate(['/catalogo']);
                         this.carrito_service.crearCarrito();
                     }
 
@@ -59,7 +60,7 @@ export class LoginComponent implements OnInit {
 
             err => {
                 console.error(err)
-                alert(err.error)
+                alert(err.error.message)
                 this.router.navigate(['/registro/']); //prueba.
             }
         );

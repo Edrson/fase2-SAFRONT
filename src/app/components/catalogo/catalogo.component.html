@@ -1,12 +1,62 @@
 <div style="padding: 13px;" class="container ">
   <div class="row">
-    <mat-spinner *ngIf="Categorias.length === 0"></mat-spinner>
-    <div *ngFor="let categoria of Categorias" class="row">
-      <div class="row mt-5 mb-5">
-        <h1>{{categoria._id}}</h1>
+  
+    <div *ngIf="propio">
+      
+      <div *ngFor="let categoria of Categorias" class="row">
+        <div class="row mt-5 mb-5">
+          <h1>{{categoria._id}}</h1>
+        </div>
+
+        <div *ngFor="let producto of categoria.productos" class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 ">
+
+          <div class="card mb-3 mt-3 ml-3 ">
+
+            <h6 class="card-header">{{producto.nombre}}</h6>
+            <img class="d-block user-select-none" src="{{producto.foto}}" />
+
+            <div class="card-body">
+              <p class="card-text">{{producto.descripcion}}</p>
+            </div>
+
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 p-0">Q{{producto.precio}}</div>
+
+                <div class="  p-0 col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12" aria-label="First group">
+
+                  <button (click)="agregarACarrito(producto,categoria.nombre)" mat-icon-button
+                    class="btn-primary m-1 col-12">
+                    <mat-icon id="{{producto.nombre}}">add_shopping_cart</mat-icon>
+                  </button>
+
+                  <button (click)="agregarAFavoritos(producto,categoria.nombre)" mat-icon-button class="btn-danger m-1">
+                    <mat-icon id="{{producto.nombre}}">loyalty</mat-icon>
+                  </button>
+
+                  <button (click)="compraRapida(producto,categoria.nombre)" mat-icon-button class="btn-warning m-1">
+                    <mat-icon id="{{producto.nombre}}">bolt</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+
       </div>
 
-      <div *ngFor="let producto of categoria.productos" class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 ">
+    </div>
+
+    <div *ngIf="!propio"  class="row">
+      
+      <div *ngFor="let producto of arrayProductos" class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 ">
 
         <div class="card mb-3 mt-3 ml-3 ">
 
@@ -21,31 +71,31 @@
             <div class="row">
               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 p-0">Q{{producto.precio}}</div>
 
-              <div class="  p-0 col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12"   aria-label="First group">
-                
-                <button (click)="agregarACarrito(producto,categoria.nombre)"  mat-icon-button  class="btn-primary m-1 col-12" >
-                    <mat-icon id="{{producto.nombre}}">add_shopping_cart</mat-icon>
-                  </button>
-    
-                  <button (click)="agregarAFavoritos(producto,categoria.nombre)" mat-icon-button class="btn-danger m-1">
-                    <mat-icon id="{{producto.nombre}}">loyalty</mat-icon>
-                  </button>
-    
-                  <button (click)="compraRapida(producto,categoria.nombre)" mat-icon-button class="btn-warning m-1">
+              <div class="  p-0 col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12" aria-label="First group">
+
+                <button (click)="agregarACarrito(producto,producto.categorias[0])" mat-icon-button
+                  class="btn-primary m-1 col-12">
+                  <mat-icon id="{{producto.nombre}}">add_shopping_cart</mat-icon>
+                </button>
+
+                <button (click)="agregarAFavoritos(producto,producto.categorias[0])" mat-icon-button
+                  class="btn-danger m-1">
+                  <mat-icon id="{{producto.nombre}}">loyalty</mat-icon>
+                </button>
+
+                <button (click)="compraRapida(producto,producto.categorias[0])" mat-icon-button class="btn-warning m-1">
                   <mat-icon id="{{producto.nombre}}">bolt</mat-icon>
                 </button>
-                </div>
-             
-            </div>
+              </div>
 
             </div>
-
 
           </div>
 
-        </div>
 
+        </div>
 
       </div>
     </div>
   </div>
+</div>

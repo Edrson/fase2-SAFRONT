@@ -16,6 +16,31 @@ export class SesionService {
 
   }
 
+  getLoggedUserToken():string{
+    var token = localStorage.getItem("logged_user_token");
+    if (token) return token
+    return "";
+   }
+
+  setConnectedGroupNumber(group:string){
+    localStorage.setItem('connected_group_number',group);
+    console.log("el grupo seleccionado es "+group);
+  }
+
+  getConnectedGroupNumber():string{
+      var group_no = localStorage.getItem('connected_group_number');
+
+      if (group_no){
+          return group_no
+      }
+      {
+          return "1"
+      }
+     
+  }
+
+  
+
  
 
   getLoggedUserObject(){

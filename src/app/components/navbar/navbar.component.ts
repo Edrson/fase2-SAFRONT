@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SesionService } from 'src/app/services/sesion.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private sesion: SesionService) { }
 
-  ngOnInit(): void {
+  grupo = "1";
+  
+  SelectGrupo(){
+    this.sesion.setConnectedGroupNumber(this.grupo);
+   
   }
+  ngOnInit(): void {
+    this.grupo = "1";
+    this.sesion.setConnectedGroupNumber(this.grupo);
+  }
+
+  
 
 }

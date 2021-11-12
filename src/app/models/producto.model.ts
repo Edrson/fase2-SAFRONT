@@ -7,4 +7,8 @@ export class Producto {
         proveedor:string="";
         categoria:string="";
         unidades:number=0;
+
+        categorias:string[]=[];
+        id:string=""
+        userID: string="";
 }
